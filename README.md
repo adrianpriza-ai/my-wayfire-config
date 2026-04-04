@@ -1,2 +1,113 @@
 # my-wayfire-config
-Work in Progres
+
+Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux / EndeavourOS.
+
+---
+
+## Tampilan
+
+> Screenshot menyusul.
+
+---
+
+## Dependensi
+
+| Package | Keterangan |
+|---|---|
+| wayfire | Wayland compositor |
+| waybar | Status bar |
+| kitty | Terminal emulator |
+| rofi | App launcher |
+| mako | Notification daemon |
+| swaylock | Lock screen |
+| gtklock | Lock screen (GTK) |
+| eww | Widget system |
+
+> Sebagian package tersedia di Chaotic-AUR. Jalankan `setup_repos.sh` terlebih dahulu.
+
+---
+
+## Instalasi
+
+### 1. Clone repo
+
+```bash
+git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config
+cd ~/my-wayfire-config
+```
+
+### 2. Setup repo (opsional tapi direkomendasikan)
+
+Jalankan script ini untuk menambahkan Chaotic-AUR, ArchLinuxCN, dan/atau yay:
+
+```bash
+chmod +x setup_repos.sh
+./setup_repos.sh
+```
+
+Pilihan yang tersedia:
+```
+1) Chaotic-AUR + ArchLinuxCN
+2) yay
+3) Keduanya
+```
+
+### 3. Install config
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+Script ini akan:
+- Backup config lama di `~/.config/` dengan suffix `-clone`
+- Copy config baru ke `~/.config/`
+- Install package yang dibutuhkan (opsional)
+
+---
+
+## Struktur Config
+
+```
+config/
+├── eww/          # Widget system (action center, media player, dll)
+├── gtklock/      # GTK lock screen
+├── kitty/        # Terminal
+├── mako/         # Notifikasi
+├── rofi/         # App launcher
+├── swaylock/     # Lock screen
+├── waybar/       # Status bar
+├── wayfire/      # Wayfire plugins & config
+└── wayfire.ini   # Konfigurasi utama Wayfire
+```
+
+---
+
+## Script
+
+| Script | Fungsi |
+|---|---|
+| `setup_repos.sh` | Setup Chaotic-AUR, ArchLinuxCN, dan/atau yay |
+| `install.sh` | Backup config lama, copy config baru, install package |
+
+---
+
+## Restore Config Lama
+
+Jika ingin kembali ke config sebelumnya:
+
+```bash
+# Contoh restore kitty
+mv ~/.config/kitty-clone ~/.config/kitty
+
+# Contoh restore waybar
+mv ~/.config/waybar-clone ~/.config/waybar
+```
+
+---
+
+## Catatan
+
+- Distro yang didukung: Arch Linux, EndeavourOS, dan Arch-based lainnya
+- Compositor: Wayfire (Wayland)
+- Resolusi yang digunakan: 1366x768
