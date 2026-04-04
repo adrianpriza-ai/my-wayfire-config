@@ -1,0 +1,240 @@
+(defpoll wifi-on :interval "4s"
+                 :run-while uni-visible
+    "nmcli radio wifi | grep -q 'enabled' && echo true || echo false")
+(defpoll bt-on :interval "4s"
+               :run-while uni-visible
+    "bluetoothctl show | grep -q 'Powered: yes' && echo true || echo false")
+(defpoll vl-on :interval "2s"
+               :run-while uni-visible
+    "pactl get-sink-mute @DEFAULT_SINK@ | grep -q 'yes' && echo false || echo true")
+(defpoll nl-on :interval "4s"
+               :run-while uni-visible
+    "pgrep -x wlsunset > /dev/null && echo true || echo false")
+(defpoll vol-value :interval "1s"
+                   :run-while uni-visible
+    "pactl get-sink-volume @DEFAULT_SINK@ | grep -o '[0-9]*%' | head -1 | tr -d %")
+(defpoll bri-value :interval "2s"
+                   :run-while uni-visible
+    "brightnessctl -m | cut -d, -f4 | tr -d %")
+(defpoll media-title :interval "5s"
+                     :run-while media-visible
+    "playerctl metadata title 2>/dev/null || echo 'Nothing playing'")
+(defpoll media-artist :interval "5s"
+                      :run-while media-visible
+    "playerctl metadata artist 2>/dev/null || echo ''")
+(defpoll media-status :interval "5s"
+                      :run-while media-visible
+    "playerctl status 2>/dev/null || echo 'Stopped'")
+(defpoll media-cover :interval "15s"
+                     :run-while media-visible
+    "/home/momoi/.config/eww/script/cover.sh")
+(defpoll cal-text
+  :interval "40s"
+  :run-while cal-visible
+  `/home/momoi/.config/eww/script/calendar.sh`)
+(defwidget weather_item [d i t h]
+  (box :orientation "vertical" :halign "center" :spacing 4 :hexpand true
+    (label :halign "center" :text d :class "rover")
+    (label :halign "center" :text i :class "icon")
+    (label :halign "center" :text t :class "rover")
+    (label :halign "center" :text h :class "rover")
+  )
+)
+(defpoll weather-update
+  :interval "1h"
+  :run-while wet-visible
+  `/home/momoi/.config/eww/script/weather_cache.sh`)
+(defpoll w0d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f1`)
+(defpoll w0i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f2`)
+(defpoll w0t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f3`)
+(defpoll w0h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f4`)
+(defpoll w1d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f1`)
+(defpoll w1i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f2`)
+(defpoll w1t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f3`)
+(defpoll w1h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f4`)
+(defpoll w2d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f1`)
+(defpoll w2i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f2`)
+(defpoll w2t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f3`)
+(defpoll w2h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f4`)
+(defvar uni-visible false)
+(defvar media-visible false)
+(defvar cal-visible false)
+(defvar wet-visible false)
+(defwindow example
+           :monitor 0
+           :class "panel"
+           :focusable false
+           :geometry (geometry :x "20px"
+                               :y "5px"
+                               :width "330px"
+                               :height "205px"
+                               :anchor "top right")
+           :stacking "overlay"
+           :windowtype "dock"
+           :wm-ignore false
+           :onshow "eww update uni-visible=true"
+           :onhide "eww update uni-visible=false"
+    (box :class "panel-style" 
+         :orientation "vertical"
+         :space-evenly false
+         :spacing 15
+         :halign "center"
+         :width 330
+       (box :orientation "horizontal" 
+			:spacing 20
+			:class "my-panel"
+			:valign "center"
+			:halign "center"
+			:height 30
+			:width 206
+			:space-evenly false
+			(box :orientation "horizontal" :spacing 2 :space-evenly false
+				(button :class "btn-lef ${wifi-on ? 'btn-on' : 'btn-off'}" :height 30 :width 50 :hexpand false :halign "end" :vexpand false :valign "center" 
+						:onclick "nmcli radio wifi ${wifi-on ? 'off' : 'on'}"
+						{wifi-on ? "󰖩" : "󰖪"})
+				(button :class "btn-rig ${wifi-on ? 'btn-on' : 'btn-off'}" :height 30 :width 30 :hexpand false :halign "start" :vexpand false :valign "center" 
+						:onclick "nm-connection-editor &"
+						" ")
+			)
+			(box :orientation "horizontal" :spacing 2 :space-evenly false
+				(button :class "btn-lef ${bt-on ? 'btn-on' : 'btn-off'}" :height 30 :width 50 :hexpand false :halign "end" :vexpand false :valign "center" 
+						:onclick "bluetoothctl power ${bt-on ? 'off' : 'on'}"
+						{bt-on ? "󰂯" : "󰂲"})
+				(button :class "btn-rig ${bt-on ? 'btn-on' : 'btn-off'}" :height 30 :width 30 :hexpand false :halign "start" :vexpand false :valign "center" 
+						:onclick "blueman-manager &"
+						" ")
+			)
+			(box :orientation "horizontal" :spacing 2 :space-evenly false
+				(button :class "btn-lef ${vl-on ? 'btn-on' : 'btn-off'}" :height 30 :width 50 :hexpand false :halign "end" :vexpand false :valign "center" 
+						:onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+						{vl-on ? "󰕾" : "󰸈"})
+				(button :class "btn-rig ${vl-on ? 'btn-on' : 'btn-off'}" :height 30 :width 30 :hexpand false :halign "start" :vexpand false :valign "center" 
+						:onclick "pavucontrol &"
+						" ")
+			)
+	    )
+	    (box :orientation "horizontal" 
+			 :spacing 20
+			 :class "my2-panel"
+			 :valign "start"
+			 :halign "center"
+			 :space-evenly false
+			 :width 206
+			(button :class "btn-cn ${nl-on ? 'btn-on' : 'btn-off'}" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
+					:onclick "eww update nl-on=${!nl-on} && ${nl-on ? 'pkill wlsunset' : 'wlsunset -l -7.9 -L 112.6 &'}"
+					{nl-on ? "" : ""})
+			(button :class "btn-uni" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
+					:onclick "wcm &"
+					"")
+			(button :class "btn-uni" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
+					:onclick "/home/momoi/.config/eww/script/snap.sh &"
+					"󰹑")
+		)
+		(box :orientation "vertical" 
+			 :spacing 20
+			 :class "my3-panel"
+			 :valign "start"
+			 :halign "center"
+			 :space-evenly false
+			 :width 206
+			 :height 60
+			 (box :orientation "horizontal" :spacing 10 :width 200 :space-evenly false
+				(label :text {vl-on == false ? "󰸈" :
+							  vol-value < 33 ? "󰕿" :
+							  vol-value < 66 ? "󰖀" : "󰕾"})
+				(scale :class {vl-on ? "vol" : "vol-muted"} 
+					   :min 0 :max 100 :value vol-value
+					   :active {vl-on}
+					   :onchange "pactl set-sink-volume @DEFAULT_SINK@ $(( ({} / 5) * 5 ))%")
+				(label :text "${vol-value}%"))
+
+			(box :orientation "horizontal" :spacing 10 :width 200 :space-evenly false
+				(label :text {bri-value < 25 ? "󰋙" : 
+							  bri-value < 50 ? "󰃝" : 
+							  bri-value < 75 ? "󰃟" : "󰃠"})
+				(scale :class "bri" :min 2 :max 100 :value bri-value
+					   :onchange "brightnessctl set $(( ({} / 2) * 2 ))%")
+				(label :text "${bri-value}%"))
+		)
+    )
+)
+(defwindow media-player
+           :monitor 0
+           :class "panel"
+           :focusable false
+           :geometry (geometry :x "20px"
+                               :y "220px"
+                               :width "330px"
+                               :height "150px"
+                               :anchor "top right")
+           :stacking "overlay"
+           :windowtype "dock"
+           :wm-ignore false
+           :onshow "eww update media-visible=true"
+		   :onhide "eww update media-visible=false"
+	(box :visible {media-status != "Stopped"}
+    (overlay
+        (box :class "media-bg"
+             :width 330
+             :height 150
+             :style "background-image: url('${media-cover}'); background-size: cover; background-position: center; border-radius: 11px;")
+        (box :class {media-cover != "" ? "media-style-img" : "media-style"}
+             :orientation "vertical"
+             :space-evenly false
+             :spacing 40
+             :halign "center"
+             :width 330
+            (label :text "${media-artist} - ${media-title}"
+                   :limit-width 30 :halign "center" :class "media-text")
+            (box :orientation "horizontal" :spacing 10 :halign "center"
+                (button :class "btn-uni" :onclick "playerctl previous" "󰒮")
+                (button :class "btn-uni" :onclick "playerctl play-pause"
+                        {media-status == "Playing" ? "󰏤" : "󰐊"})
+                (button :class "btn-uni" :onclick "playerctl next" "󰒭")
+            )
+        )
+    )
+    )
+)
+(defwindow cal
+  :monitor 0
+  :focusable false
+  :geometry (geometry :x "0px"
+                      :y "10px"
+                      :width "320px"
+                      :height "220px"
+                      :anchor "top center")
+  :stacking "overlay"
+  :windowtype "dock"
+  :onshow "eww update cal-visible=true"
+  :onhide "eww update cal-visible=false"
+  (box :class "panel1-style"
+       :orientation "vertical"
+       :spacing 8
+       :halign "fill"
+       :valign "center"
+       (label :markup cal-text)
+  )
+)
+(defwindow weather
+  :monitor 0
+  :geometry (geometry :x "0px"
+                      :y "250px"
+                      :width "320px"
+                      :height "80px"
+                      :anchor "top center")
+  :stacking "overlay"
+  :windowtype "dock"
+  :onshow "eww update wet-visible=true"
+  :onhide "eww update wet-visible=false"
+  (box :class "panel2-style"
+       :orientation "horizontal"
+       :spacing 10
+       :halign "center"
+       :valign "center"
+       :space-evenly true
+    (weather_item :d w0d :i w0i :t w0t :h w0h)
+    (weather_item :d w1d :i w1i :t w1t :h w1h)
+    (weather_item :d w2d :i w2i :t w2t :h w2h)
+  )
+)
