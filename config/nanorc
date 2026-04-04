@@ -1,0 +1,26 @@
+# ── Nano Config ──
+# Theme: dark grey, blood red, silver
+
+set autoindent
+#set linenumbers
+#set mouse
+#set smooth
+set tabsize 4
+set tabstospaces
+set trimblanks
+set softwrap
+
+# Colors
+# titlecolor    = background foreground
+# statuscolor   = background foreground
+# errorcolor    = background foreground
+# selectedcolor = background foreground
+# numbercolor   = foreground only
+
+set titlecolor     bold,white,red
+set statuscolor    bold,white,black
+set errorcolor     bold,white,red
+set selectedcolor  bold,white,red
+set numbercolor    red
+set keycolor       bold,red,black
+set functioncolor  white,black

@@ -82,6 +82,11 @@ for item in "${CONFIG_ITEMS[@]}"; do
     fi
 done
 
+if [ -e "$HOME/.nanorc" ]; then
+    mv "$HOME/.nanorc" "$HOME/.nanorc-clone"
+    echo "  Backup: .nanorc -> .nanorc-clone"
+fi
+
 echo "OK: Backup selesai."
 
 # ============================================
@@ -92,6 +97,11 @@ echo ""
 echo ">>> Copy config baru ke ~/.config/..."
 
 cp -r ./config/* ~/.config/
+
+if [ -f "./config/nanorc" ]; then
+    cp ./config/nanorc ~/.nanorc
+    echo "OK: .nanorc berhasil dicopy."
+fi
 
 echo "OK: Config berhasil dicopy."
 
