@@ -1,5 +1,6 @@
 #!/bin/bash
-
+set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # ============================================
 # Cek Arch-based
 # ============================================
@@ -21,12 +22,12 @@ echo "   Install Wayfire Config - adrianpriza-ai"
 echo "================================================"
 echo ""
 echo "Script ini akan melakukan:"
-echo "  - Masuk ke ~/my-wayfire-config/"
+echo "  - Menggunakan direktori repo saat ini"
 echo "  - Backup config lama (rename dengan -clone)"
 echo "  - Copy config baru ke ~/.config/"
 echo "  - Install package yang dibutuhkan"
 echo ""
-echo "PERHATIAN: Pastikan repo sudah di-clone ke ~/my-wayfire-config/"
+echo "PERHATIAN: Jalankan script ini dari dalam folder repo."
 echo ""
 
 # ============================================
@@ -45,17 +46,22 @@ echo ""
 # Pindah ke direktori repo
 # ============================================
 
-cd ~/my-wayfire-config/ || {
+cd "$SCRIPT_DIR" || {
     echo "ERROR: Folder ~/my-wayfire-config/ tidak ditemukan!"
     echo "       Clone dulu: git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config"
     exit 1
 }
 
-echo "OK: Masuk ke ~/my-wayfire-config/"
+echo "OK: Menggunakan direktori repo: $SCRIPT_DIR"
 
 # ============================================
 # Backup config lama
 # ============================================
+
+if [ ! -d "./config" ]; then
+    echo "ERROR: Folder config tidak ditemukan!"
+    exit 1
+fi
 
 echo ""
 echo ">>> Mengecek config lama di ~/.config/..."
@@ -71,20 +77,21 @@ CONFIG_ITEMS=(
     "wayfire"
     "wayfire.ini"
 )
+timestamp=$(date +%Y%m%d-%H%M%S)
 
 for item in "${CONFIG_ITEMS[@]}"; do
     target="$HOME/.config/$item"
     if [ -e "$target" ]; then
-        mv "$target" "${target}-clone"
-        echo "  Backup: $item -> ${item}-clone"
+        mv "$target" "${target}-clone-$timestamp"
+        echo "  Backup: $item -> ${item}-clone-$timestamp"
     else
         echo "  Tidak ada: $item, skip."
     fi
 done
 
 if [ -e "$HOME/.nanorc" ]; then
-    mv "$HOME/.nanorc" "$HOME/.nanorc-clone"
-    echo "  Backup: .nanorc -> .nanorc-clone"
+    mv "$HOME/.nanorc" "$HOME/.nanorc-clone-$timestamp"
+    echo "  Backup: .nanorc -> .nanorc-clone-$timestamp"
 fi
 
 echo "OK: Backup selesai."
@@ -96,7 +103,15 @@ echo "OK: Backup selesai."
 echo ""
 echo ">>> Copy config baru ke ~/.config/..."
 
-cp -r ./config/* ~/.config/
+mkdir -p "$HOME/.config"
+
+if command -v rsync &> /dev/null; then
+    echo "Menggunakan rsync..."
+    rsync -av ./config/ "$HOME/.config/"
+else
+    echo "rsync tidak ditemukan, fallback ke cp..."
+    cp -rf ./config/* "$HOME/.config/"
+fi
 
 if [ -f "./config/nanorc" ]; then
     cp ./config/nanorc ~/.nanorc
@@ -114,6 +129,10 @@ read -p "Install package yang dibutuhkan? (y/n): " install_pkg
 if [[ "$install_pkg" != "y" && "$install_pkg" != "Y" ]]; then
     echo "Skip install package."
 else
+    if ! sudo -v &> /dev/null; then
+        echo "ERROR: Butuh akses sudo untuk install package. Skip."
+    else
+        echo ""
     echo ""
     echo ">>> Mengecek package manager yang tersedia..."
 
@@ -157,12 +176,13 @@ else
         # ----------------------------------------
 
         if [ "$HAS_CHAOTIC" = true ]; then
-            sudo pacman -S --noconfirm "${PACKAGES[@]}"
+            sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
         elif [ "$HAS_YAY" = true ]; then
-            yay -S --noconfirm "${PACKAGES[@]}"
+            yay -S --needed --noconfirm "${PACKAGES[@]}"
         fi
 
         echo "OK: Package berhasil diinstall."
+    fi
     fi
 fi
 

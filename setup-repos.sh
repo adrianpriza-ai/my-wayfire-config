@@ -1,8 +1,16 @@
 #!/bin/bash
-
+set -e
 # ============================================
 # Cek Arch-based
 # ============================================
+
+# Cek sudo
+if ! sudo -v &> /dev/null; then
+    echo "ERROR: Butuh akses sudo untuk menjalankan script ini."
+    exit 1
+fi
+
+echo "OK: Akses sudo tersedia."
 
 if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
     echo "ERROR: Bukan Arch-based distro! Script ini hanya untuk Arch Linux."
@@ -10,6 +18,11 @@ if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
 fi
 
 echo "OK: Arch-based distro terdeteksi."
+
+if ! ping -c 1 archlinux.org &> /dev/null; then
+    echo "ERROR: Tidak ada koneksi internet."
+    exit 1
+fi
 
 # ============================================
 # Informasi
@@ -71,6 +84,9 @@ fi
 
 echo ""
 
+timestamp=$(date +%Y%m%d-%H%M%S)
+sudo cp /etc/pacman.conf /etc/pacman.conf.backup-$timestamp
+
 # ============================================
 # Fungsi: Setup Chaotic-AUR
 # ============================================
@@ -86,7 +102,10 @@ setup_chaotic() {
         sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
         sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
-        echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf > /dev/null
+        echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf > /dev/null || {
+		echo "ERROR: Gagal menulis ke pacman.conf"
+		exit 1
+	}
         echo "OK: Chaotic-AUR ditambahkan."
     fi
 }
@@ -101,7 +120,10 @@ setup_archlinuxcn() {
     if grep -q "\[archlinuxcn\]" /etc/pacman.conf; then
         echo "INFO: ArchLinuxCN sudah ada, skip."
     else
-        echo -e "\n[archlinuxcn]\nServer = https://repo.archlinuxcn.org/\$arch" | sudo tee -a /etc/pacman.conf > /dev/null
+        echo -e "\n[archlinuxcn]\nServer = https://repo.archlinuxcn.org/\$arch" | sudo tee -a /etc/pacman.conf > /dev/null || {
+		echo "ERROR: Gagal menulis ke pacman.conf"
+		exit 1
+	}
         sudo pacman -Sy --noconfirm archlinuxcn-keyring
         echo "OK: ArchLinuxCN ditambahkan."
     fi
@@ -122,12 +144,12 @@ setup_yay() {
     # Cek dependensi
     if ! command -v git &> /dev/null; then
         echo ">>> Install git..."
-        sudo pacman -S --noconfirm git
+        sudo pacman -S --needed --noconfirm git
     fi
 
-    if ! command -v base-devel &> /dev/null; then
+    if ! pacman -Qi base-devel &> /dev/null; then
         echo ">>> Install base-devel..."
-        sudo pacman -S --noconfirm base-devel
+        sudo pacman -S --needed --noconfirm base-devel
     fi
 
     # Clone & build yay
@@ -135,7 +157,7 @@ setup_yay() {
     git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
     cd "$tmpdir/yay" || exit 1
     makepkg -si --noconfirm
-    cd ~ || exit 1
+    cd "$HOME" || exit 1
     rm -rf "$tmpdir"
 
     if command -v yay &> /dev/null; then
@@ -173,7 +195,7 @@ esac
 
 echo ""
 echo ">>> Update database pacman..."
-sudo pacman -Sy
+sudo pacman -Sy --noconfirm
 
 echo ""
 echo "================================================"
