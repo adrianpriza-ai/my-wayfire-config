@@ -1,0 +1,148 @@
+window {
+  background-color: transparent;
+}
+.btn-on {
+    background: #8b0000;
+    transition: background 0.3s ease;
+}
+.btn-off {
+    background: #333;
+    transition: background 0.3s ease;
+}
+.btn-lef {
+	border-radius: 20px 2px 2px 20px;
+    min-width: 0px;
+    min-height: 0px;
+    padding: 0px 0px;
+}
+.btn-rig {
+	border-radius: 2px 20px 20px 2px;
+    min-width: 0px;
+    min-height: 0px;
+    padding: 0px 0px;
+}
+.btn-cn {
+	border-radius: 20px;
+    min-width: 0px;
+    min-height: 0px;
+    padding: 0px 0px;
+}
+.btn-uni {
+	border-radius: 20px;
+    min-width: 20px;
+    min-height: 10px;
+    padding: 6px 6px;
+    background: #333;
+}
+.my-panel {
+    margin-top: 20px;
+    margin-left: 0px;
+}
+.my2-panel {
+    margin-top: 0px;
+    margin-left: 0px;
+}
+.my3-panel {
+    margin-top: 5px;
+    margin-left: 0px;
+}
+.panel-style {
+	border-radius: 10px;
+	font-family: "JetBrainsMono Nerd Font", monospace;
+	padding: 0px;
+	background-color: rgba(0, 0, 0, 0.9);
+	margin-bottom: 0px;
+}
+.panel1-style {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 16px;
+  min-height: 200px;
+}
+.icon {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 20px;
+}
+.rover {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+}
+.panel2-style {
+  background: rgba(20, 20, 20, 0.9);
+  border-radius: 10px;
+  min-width: 320px;
+}
+scale.vol {
+    min-width: 200px;
+    trough {
+        background: #333;
+        border-radius: 10px;
+        min-height: 4px;
+    }
+    highlight {
+        background: linear-gradient(to right, #1a1a2e, #ff4444);
+        border-radius: 10px;
+    }
+    slider {
+        background: white;
+        border-radius: 50%;
+        min-width: 12px;
+        min-height: 12px;
+    }
+}
+scale.bri {
+    min-width: 200px;
+    trough {
+        background: #333;
+        border-radius: 10px;
+        min-height: 4px;
+    }
+    highlight {
+        background: linear-gradient(to right, #1a1a2e, #f5c518);
+        border-radius: 10px;
+    }
+    slider {
+        background: white;
+        border-radius: 50%;
+        min-width: 12px;
+        min-height: 12px;
+    }
+}
+scale.vol-muted {
+    min-width: 200px;
+    trough {
+        background: #444;
+        border-radius: 10px;
+        min-height: 4px;
+    }
+    highlight {
+        background: #444;
+        border-radius: 10px;
+    }
+    slider {
+        background: #222;
+        border: 2px solid #000;
+        border-radius: 50%;
+        min-width: 6px;
+        min-height: 6px;
+    }
+}
+.media-style {
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+}
+.media-bg {
+    border-radius: 11px;
+}
+.media-style-img {
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,1));
+    border-radius: 9px;
+}
+.media-text {
+    color: white;
+    font-weight: bold;
+    margin-top: 50px;
+    margin-left: 0px;
+}
