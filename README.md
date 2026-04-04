@@ -111,3 +111,4 @@ mv ~/.config/waybar-clone ~/.config/waybar
 - Distro yang didukung: Arch Linux, dan Arch-based lainnya
 - Compositor: Wayfire (Wayland)
 - Resolusi yang digunakan: 1366x768
+- Dibuat untuk negara Indonesia
