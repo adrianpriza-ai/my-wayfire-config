@@ -1,0 +1,90 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: #0a0a0a;
+    color: #e0e0e0;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+tooltip {
+    background: #111111;
+    border: 1px solid #2a2a2a;
+    color: #e0e0e0;
+}
+
+/* Clock */
+#clock {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 2px 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Right modules */
+#backlight,
+#pulseaudio,
+#network,
+#battery {
+    padding: 2px 8px;
+    margin: 3px 1px;
+}
+
+#backlight { color: #aaaaaa; }
+
+#pulseaudio { color: #aaaaaa; }
+#pulseaudio.muted { color: #333333; }
+
+#network { color: #aaaaaa; }
+#network.disconnected { color: #ff3333; }
+
+#battery { color: #aaaaaa; }
+#battery.warning { color: #ffffff; }
+#battery.critical {
+    color: #ff3333;
+    animation: blink 1s step-start infinite;
+}
+#battery.charging { color: #ffffff; }
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
+
+/* Tray */
+#tray {
+    padding: 4px 8px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+/* Power button */
+#custom-power {
+    color: #aaaaaa;
+    padding: 2px 8px;
+    margin: 3px 1px;
+    font-size: 12px;
+}
+
+#custom-power:hover {
+    color: #ff3333;
+}
+
+/* Start button */
+#custom-start {
+    color: #aaaaaa;
+    padding: 2px 8px;
+    margin: 3px 1px;
+    font-size: 12px;
+}
+
+#custom-start:hover {
+    color: #ff3333;
+}
+

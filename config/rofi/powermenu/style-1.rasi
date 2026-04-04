@@ -1,0 +1,94 @@
+configuration {
+    show-icons:                 false;
+}
+* {
+    font:                        "Ubuntu Nerd Font 10";
+    background:                  rgba(10, 10, 10, 0.9);
+    background-alt:              rgba(30, 30, 30, 0.8);
+    foreground:                  #ffffff;
+    selected:                    #cc0000;
+    active:                      #2e2e2e;
+    urgent:                      #8b0000;
+}
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       700px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               12px;
+    border-color:                transparent;
+    cursor:                      "default";
+    background-color:            @background;
+}
+mainbox {
+    background-color:            transparent;
+    orientation:                 horizontal;
+    children:                    [ "imagebox", "listview" ];
+}
+imagebox {
+    spacing:                     10px;
+    padding:                     12px;
+    background-color:            transparent;
+    background-image:            url("/home/momoi/.config/rofi/images/wallhaven-kwm2r6.jpg", width);
+    children:                    [ "dummy", "message" ];
+}
+
+dummy {
+    background-color:            transparent;
+}
+message {
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     5px;
+    border-radius:               8px;
+    background-color:            @active;
+    text-color:                  @foreground;
+}
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+listview {
+    enabled:                     true;
+    columns:                     3;
+    lines:                       2;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    spacing:                     10px;
+    margin:                      10px;
+    background-color:            transparent;
+    cursor:                      "default";
+}
+element {
+    enabled:                     true;
+    padding:                     34px 8px;
+    border-radius:               8px;
+    background-color:            @background-alt;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+element-text {
+    font:                        "Ubuntu Nerd Font 20";
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+element selected.normal {
+    background-color:            var(selected);
+    text-color:                  var(foreground);
+}

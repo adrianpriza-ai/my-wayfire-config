@@ -1,0 +1,53 @@
+# ~/.config/mako/config
+# Theme: Graphite Red (Texas-inspired)
+
+max-history=30
+
+# === Posisi & Ukuran ===
+anchor=bottom-right
+outer-margin=20
+margin=12
+padding=10,14
+width=320
+height=100
+border-size=2
+border-radius=6
+
+# === Warna Utama (Graphite Dark) ===
+background-color=#2e2e2eee
+text-color=#e8e8e8
+border-color=#c0392b
+
+# === Font ===
+font=Ubuntu Nerd Font 8
+
+# === Icon ===
+max-icon-size=20
+icons=1
+
+# === Behavior ===
+default-timeout=50
+ignore-timeout=0
+max-visible=5
+sort=-time
+
+# === Urgency: Low (abu lebih gelap, border redup) ===
+[urgency=low]
+background-color=#282828dd
+text-color=#aaaaaa
+border-color=#555555
+default-timeout=3000
+
+# === Urgency: Normal (default graphite red) ===
+[urgency=normal]
+background-color=#2e2e2eee
+text-color=#e8e8e8
+border-color=#555555
+default-timeout=5000
+
+# === Urgency: Critical (merah lebih terang, no timeout) ===
+[urgency=critical]
+background-color=#3a1a1a
+text-color=#ffffff
+border-color=#e74c3c
+default-timeout=0
