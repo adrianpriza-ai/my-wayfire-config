@@ -1,0 +1,1 @@
+# my-wayfire-config
