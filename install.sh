@@ -5,11 +5,11 @@
 # ============================================
 
 if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
-    echo "Bukan Arch-based distro! Script ini hanya untuk Arch Linux."
+    echo "ERROR: Bukan Arch-based distro! Script ini hanya untuk Arch Linux."
     exit 1
 fi
 
-echo "Arch-based distro terdeteksi."
+echo "OK: Arch-based distro terdeteksi."
 
 # ============================================
 # Informasi
@@ -26,7 +26,7 @@ echo "  - Backup config lama (rename dengan -clone)"
 echo "  - Copy config baru ke ~/.config/"
 echo "  - Install package yang dibutuhkan"
 echo ""
-echo "astikan repo sudah di-clone ke ~/my-wayfire-config/"
+echo "PERHATIAN: Pastikan repo sudah di-clone ke ~/my-wayfire-config/"
 echo ""
 
 # ============================================
@@ -46,12 +46,12 @@ echo ""
 # ============================================
 
 cd ~/my-wayfire-config/ || {
-    echo "Folder ~/my-wayfire-config/ tidak ditemukan!"
-    echo "Clone dulu: git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config"
+    echo "ERROR: Folder ~/my-wayfire-config/ tidak ditemukan!"
+    echo "       Clone dulu: git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config"
     exit 1
 }
 
-echo "Masuk ke ~/my-wayfire-config/"
+echo "OK: Masuk ke ~/my-wayfire-config/"
 
 # ============================================
 # Backup config lama
@@ -60,7 +60,6 @@ echo "Masuk ke ~/my-wayfire-config/"
 echo ""
 echo ">>> Mengecek config lama di ~/.config/..."
 
-# Daftar folder/file yang dicek
 CONFIG_ITEMS=(
     "eww"
     "gtklock"
@@ -77,13 +76,13 @@ for item in "${CONFIG_ITEMS[@]}"; do
     target="$HOME/.config/$item"
     if [ -e "$target" ]; then
         mv "$target" "${target}-clone"
-        echo "Backup: $item → ${item}-clone"
+        echo "  Backup: $item -> ${item}-clone"
     else
-        echo "idak ada: $item, skip."
+        echo "  Tidak ada: $item, skip."
     fi
 done
 
-echo "Backup selesai."
+echo "OK: Backup selesai."
 
 # ============================================
 # Copy config baru
@@ -94,7 +93,7 @@ echo ">>> Copy config baru ke ~/.config/..."
 
 cp -r ./config/* ~/.config/
 
-echo "Config berhasil dicopy."
+echo "OK: Config berhasil dicopy."
 
 # ============================================
 # Install Package
@@ -103,32 +102,64 @@ echo "Config berhasil dicopy."
 echo ""
 read -p "Install package yang dibutuhkan? (y/n): " install_pkg
 if [[ "$install_pkg" != "y" && "$install_pkg" != "Y" ]]; then
-    echo "kip install package."
+    echo "Skip install package."
 else
     echo ""
-    echo ">>> Install package..."
+    echo ">>> Mengecek package manager yang tersedia..."
 
-    # ----------------------------------------
-    # EDIT DAFTAR PACKAGE DI SINI
-    # ----------------------------------------
-    PACKAGES=(
-        "wayfire"
-        "waybar"
-        "kitty"
-        "rofi"
-        "mako"
-        # tambahkan package lain di sini
-    )
-    # ----------------------------------------
+    # Cek Chaotic-AUR
+    HAS_CHAOTIC=false
+    if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
+        HAS_CHAOTIC=true
+        echo "OK: Chaotic-AUR ditemukan, pakai pacman."
+    else
+        echo "INFO: Chaotic-AUR tidak ditemukan."
+    fi
 
-    sudo pacman -S --noconfirm "${PACKAGES[@]}"
-    echo "Package berhasil diinstall."
+    # Cek yay (fallback)
+    HAS_YAY=false
+    if command -v yay &> /dev/null; then
+        HAS_YAY=true
+        echo "OK: yay ditemukan, pakai yay sebagai fallback."
+    else
+        echo "INFO: yay tidak ditemukan."
+    fi
+
+    if [ "$HAS_CHAOTIC" = false ] && [ "$HAS_YAY" = false ]; then
+        echo "PERINGATAN: Chaotic-AUR dan yay tidak tersedia."
+        echo "            Beberapa package mungkin tidak bisa diinstall."
+        echo "            Skip install package."
+    else
+        echo ""
+        echo ">>> Install package..."
+
+        # ----------------------------------------
+        # EDIT DAFTAR PACKAGE DI SINI
+        # ----------------------------------------
+        PACKAGES=(
+            "wayfire"
+            "waybar"
+            "kitty"
+            "rofi"
+            "mako"
+            # tambahkan package lain di sini
+        )
+        # ----------------------------------------
+
+        if [ "$HAS_CHAOTIC" = true ]; then
+            sudo pacman -S --noconfirm "${PACKAGES[@]}"
+        elif [ "$HAS_YAY" = true ]; then
+            yay -S --noconfirm "${PACKAGES[@]}"
+        fi
+
+        echo "OK: Package berhasil diinstall."
+    fi
 fi
 
 # ============================================
 
 echo ""
 echo "================================================"
-echo "   Selesai! Config sudah terpasang."
-echo "   Config lama disimpan dengan nama -clone"
+echo "  Selesai! Config sudah terpasang."
+echo "  Config lama disimpan dengan nama -clone"
 echo "================================================"
