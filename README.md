@@ -1,6 +1,6 @@
 # my-wayfire-config
 
-Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux / EndeavourOS.
+Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch-based lainnya.
 
 ---
 
@@ -77,7 +77,7 @@ config/
 ├── rofi/         # App launcher
 ├── swaylock/     # Lock screen
 ├── waybar/       # Status bar
-├── wayfire/      # Wayfire plugins & config
+├── wayfire/      # Wayfire icons
 └── wayfire.ini   # Konfigurasi utama Wayfire
 ```
 
@@ -108,6 +108,6 @@ mv ~/.config/waybar-clone ~/.config/waybar
 
 ## Catatan
 
-- Distro yang didukung: Arch Linux, EndeavourOS, dan Arch-based lainnya
+- Distro yang didukung: Arch Linux, dan Arch-based lainnya
 - Compositor: Wayfire (Wayland)
 - Resolusi yang digunakan: 1366x768
