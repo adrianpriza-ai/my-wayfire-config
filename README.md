@@ -1,4 +1,4 @@
-# my-wayfire-config
+# my-wayfire-config (NOT TESTED YET)
 
 Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch-based lainnya.
 
