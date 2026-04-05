@@ -19,7 +19,7 @@
         "tooltip": false
     },
     "custom/power": {
-        "format": "⏻ ",
+        "format": "󰐦 ",
         "on-click": "/home/momoi/.config/rofi/powermenu/powermenu.sh",
         "tooltip": false
     },

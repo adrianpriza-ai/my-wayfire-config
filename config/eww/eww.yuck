@@ -125,7 +125,7 @@
 					{nl-on ? "" : ""})
 			(button :class "btn-uni" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
 					:onclick "wcm &"
-					"")
+					"")
 			(button :class "btn-uni" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
 					:onclick "/home/momoi/.config/eww/script/snap.sh &"
 					"󰹑")
