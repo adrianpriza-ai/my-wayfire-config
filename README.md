@@ -25,15 +25,11 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | `Super + E` | File manager (thunar) |
 | `Super + B` | Browser (firefox) |
 
----
-
 ### 📸 Screenshot
 | Shortcut | Aksi |
 |--------|------|
 | `Print` | Screenshot full |
 | `Super + Shift + S` | Screenshot area (grim + satty) |
-
----
 
 ### 🔊 Audio & 💡 Brightness
 | Shortcut | Aksi |
@@ -41,8 +37,6 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | `Volume Up / Down` | Atur volume |
 | `Mute` | Toggle mute |
 | `Brightness Up / Down` | Atur kecerahan |
-
----
 
 ### 🪟 Window Management
 | Shortcut | Aksi |
@@ -53,16 +47,12 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | `Super + H` | Minimize |
 | `Super + T` | Always on top |
 
----
-
 ### 🧩 Window Tiling (Grid)
 | Shortcut | Aksi |
 |--------|------|
 | `Super + ← / →` | Snap kiri / kanan |
 | `Super + ↑ / ↓` | Snap atas / bawah |
 | `Super + Shift + Arrow` | Snap ke sudut |
-
----
 
 ### 🔄 Workspace & Overview
 | Shortcut | Aksi |
@@ -71,8 +61,6 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | `Alt + Shift + Tab` | Previous window |
 | `Super + Tab` | Expo |
 | `Super + W` | Scale (overview) |
-
----
 
 ### ⚙️ System
 | Shortcut | Aksi |
