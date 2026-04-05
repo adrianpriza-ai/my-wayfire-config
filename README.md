@@ -61,7 +61,6 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | `Super + ← / →` | Snap kiri / kanan |
 | `Super + ↑ / ↓` | Snap atas / bawah |
 | `Super + Shift + Arrow` | Snap ke sudut |
-| `Super + ↑` | Center / maximize |
 
 ---
 
