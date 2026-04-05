@@ -1,11 +1,11 @@
-#Experimental Eww Config
+# Experimental Eww Config
 
 ---
 
-##Example, Media-Player, dan cal
+## Example, Media-Player, dan cal
 
 ![Screenshot](assets/frame-1.png)
 
 ---
 
-Test
+# Test
