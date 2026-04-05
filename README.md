@@ -15,6 +15,74 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 
 ---
 
+## ⌨️ Shortcuts
+
+### 🖥️ Launch & Apps
+| Shortcut | Aksi |
+|--------|------|
+| `Ctrl + Alt + T` | Buka terminal (kitty) |
+| `Super + Space` | Launcher (rofi) |
+| `Super + E` | File manager (thunar) |
+| `Super + B` | Browser (firefox) |
+
+---
+
+### 📸 Screenshot
+| Shortcut | Aksi |
+|--------|------|
+| `Print` | Screenshot full |
+| `Super + Shift + S` | Screenshot area (grim + satty) |
+
+---
+
+### 🔊 Audio & 💡 Brightness
+| Shortcut | Aksi |
+|--------|------|
+| `Volume Up / Down` | Atur volume |
+| `Mute` | Toggle mute |
+| `Brightness Up / Down` | Atur kecerahan |
+
+---
+
+### 🪟 Window Management
+| Shortcut | Aksi |
+|--------|------|
+| `Super + Q` | Close window |
+| `Super + F` | Fullscreen |
+| `Super + M` | Maximize |
+| `Super + H` | Minimize |
+| `Super + T` | Always on top |
+
+---
+
+### 🧩 Window Tiling (Grid)
+| Shortcut | Aksi |
+|--------|------|
+| `Super + ← / →` | Snap kiri / kanan |
+| `Super + ↑ / ↓` | Snap atas / bawah |
+| `Super + Shift + Arrow` | Snap ke sudut |
+| `Super + ↑` | Center / maximize |
+
+---
+
+### 🔄 Workspace & Overview
+| Shortcut | Aksi |
+|--------|------|
+| `Alt + Tab` | Next window |
+| `Alt + Shift + Tab` | Previous window |
+| `Super + Tab` | Expo |
+| `Super + W` | Scale (overview) |
+
+---
+
+### ⚙️ System
+| Shortcut | Aksi |
+|--------|------|
+| `Ctrl + Alt + Delete` | Power menu |
+| `Super + A` | Action center (eww) |
+
+---
+
 ## Dependensi
 
 | Package | Keterangan |
@@ -125,6 +193,10 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 - Shell: Custom (waybar + eww)
 - Launcher: rofi
 - Target: Low-end hardware (1366x768)
+- Screenshot: grim + satty
+- Volume: pactl (PipeWire / PulseAudio)
+- Brightness: brightnessctl
+- Action center: eww
 
 ## Troubleshooting
 
