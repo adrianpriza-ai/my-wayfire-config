@@ -60,6 +60,7 @@
 (defvar media-visible false)
 (defvar cal-visible false)
 (defvar wet-visible false)
+(defvar display-visible false)
 (defwindow example
            :monitor 0
            :class "panel"
@@ -236,5 +237,48 @@
     (weather_item :d w0d :i w0i :t w0t :h w0h)
     (weather_item :d w1d :i w1i :t w1t :h w1h)
     (weather_item :d w2d :i w2i :t w2t :h w2h)
+  )
+)
+(defwindow display_menu
+  :monitor 0
+  :focusable false
+  :geometry (geometry :x "0px"
+                      :y "10px"
+                      :width "320px"
+                      :height "260px"
+                      :anchor "top center")
+  :stacking "overlay"
+  :windowtype "dock"
+  :onshow "eww update display-visible=true"
+  :onhide "eww update display-visible=false"
+  (box :class "panel1-style"
+       :orientation "vertical"
+       :spacing 10
+       :halign "fill"
+       :valign "center"
+
+       ;; Mirror
+       (button :class "btn-win" :onclick "~/.config/scripts/display.sh mirror"
+         (box :spacing 10
+           (image :path "/home/momoi/.config/eww/icons/thumb_Duplicate_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (label :text "Duplicate")))
+
+       ;; Extend
+       (button :class "btn-win" :onclick "~/.config/scripts/display.sh extend"
+         (box :spacing 10
+           (image :path "/home/momoi/.config/eww/icons/thumb_Extend_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (label :text "Extend")))
+
+       ;; Internal
+       (button :class "btn-win" :onclick "~/.config/scripts/display.sh internal"
+         (box :spacing 10
+           (image :path "/home/momoi/.config/eww/icons/thumb_Main_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (label :text "PC screen only")))
+
+       ;; External
+       (button :class "btn-win" :onclick "~/.config/scripts/display.sh external"
+         (box :spacing 10
+           (image :path "/home/momoi/.config/eww/icons/thumb_Second_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (label :text "Second screen only")))
   )
 )

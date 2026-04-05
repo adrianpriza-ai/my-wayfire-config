@@ -11,7 +11,7 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 ![Screenshot](assets/frame-1.png)
 
 
-![Screenshot](assets/frame-4.png)
+![Screenshot](assets/frame-2.png)
 
 ---
 

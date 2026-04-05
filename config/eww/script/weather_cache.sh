@@ -1,7 +1,7 @@
 #!/bin/bash
 
-API_KEY="Your_API"
-CITY="Jakarta"
+API_KEY="2588104a93c34807882112429263003"
+CITY="Kediri"
 CACHE="$HOME/.cache/eww_weather"
 
 mkdir -p "$(dirname "$CACHE")"
