@@ -1,0 +1,56 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 27,
+    "spacing": 0,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "modules-left": ["custom/start", "custom/scale"],
+    "modules-center": ["clock"],
+    "modules-right": [ "custom/action-center", "tray", "network", "battery", "custom/power"],
+    "tray": {
+        "spacing": 8,
+        "icon-size": 14
+    },
+    "custom/start": {
+        "format": "󰣇 ",
+        "on-click": "rofi -show drun -theme /home/momoi/.config/rofi/launcher/style-1.rasi",
+        "tooltip": false
+    },
+    "custom/power": {
+        "format": "󰐦 ",
+        "on-click": "/home/momoi/.config/rofi/powermenu/powermenu.sh",
+        "tooltip": false
+    },
+    "clock": {
+	  "format": "{:%b %d  %H:%M}",
+	  "tooltip-format": "{:%A, %d %B %Y %H:%M:%S}",
+	  "on-click": "eww active-windows | grep -q 'cal' && eww close cal || eww open cal"
+	},
+    "network": {
+        "format-wifi": "󰤨  {essid}",
+        "format-ethernet": "󰈀  Ethernet",
+        "format-disconnected": "󰤭  No Network",
+	"on-right-click": "nm-connection-editor",
+        "tooltip-format-wifi": "Signal: {signalStrength}%\nIP: {ipaddr}",
+        "interval": 5
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo}",
+        "interval": 30
+    },
+    "custom/action-center": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "if eww active-windows | grep -q 'example'; then eww close example; eww close media-player; else eww open-many example media-player; fi"
+	}
+}

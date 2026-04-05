@@ -1,0 +1,84 @@
+{
+  "logo": {
+    "type": "kitty",
+    "source": "/home/momoi/Downloads/__texas_arknights_drawn_by_huang_qing_ye__6e3217c211e9e871cc7459f6ad33f954-Photoroom1.png",
+    "width": 24,
+    "padding": {
+      "top": 0,
+      "left": 1
+    }
+  },
+
+  "display": {
+    "separator": "  "
+  },
+
+  "modules": [
+    {
+      "type": "custom",
+      "format": ""
+    },
+    {
+      "type": "custom",
+      "format": "┌────────────────────────────────────────────┐"
+    },
+
+    {
+      "type": "os",
+      "key": "  \u001b[37m󰣇"
+    },
+    {
+      "type": "host",
+      "key": "  \u001b[37m󰌢"
+    },
+    {
+      "type": "kernel",
+      "key": "  \u001b[37m"
+    },
+    {
+      "type": "uptime",
+      "key": "  \u001b[37m󱑍"
+    },
+    {
+      "type": "packages",
+      "key": "  \u001b[37m󰏖"
+    },
+    {
+      "type": "shell",
+      "key": "  \u001b[37m"
+    },
+    {
+      "type": "wm",
+      "key": "  \u001b[37m"
+    },
+
+    {
+      "type": "cpu",
+      "key": "  \u001b[37m󰍛",
+      "format": "{name}"
+    },
+    {
+      "type": "memory",
+      "key": "  \u001b[37m󰘚",
+      "format": "{used} / {total}"
+    },
+    {
+      "type": "disk",
+      "key": "  \u001b[37m󰋊",
+      "folders": ["/"],
+      "format": "{size-used} / {size-total}"
+    },
+    {
+      "type": "localip",
+      "key": "  \u001b[37m󰈀"
+    },
+    {
+      "type": "custom",
+      "format": "└────────────────────────────── \u001b[31m\u001b[0m \u001b[33m\u001b[0m \u001b[32m\u001b[0m \u001b[36m\u001b[0m \u001b[34m\u001b[0m \u001b[35m\u001b[0m ─┘"
+    },
+    {
+      "type": "custom",
+      "format": ""
+    }
+  ]
+}
