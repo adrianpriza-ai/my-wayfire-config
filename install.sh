@@ -22,6 +22,11 @@ else
     echo "OK: Arch-based distro terdeteksi."
 fi
 
+if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
+    echo "INFO: Anda tidak berada di sesi Wayland."
+    echo "      Config ini akan aktif saat login ke Wayfire (Wayland)."
+fi
+
 # ============================================
 # Informasi
 # ============================================
@@ -88,7 +93,7 @@ CONFIG_ITEMS=(
     "wayfire.ini"
 )
 
-timestamp=$(date +%Y%m%d-%H%M%S-%N)
+timestamp=$(date +%Y%m%d-%H%M%S)
 
 for item in "${CONFIG_ITEMS[@]}"; do
     target="$HOME/.config/$item"
@@ -121,7 +126,7 @@ if command -v rsync &> /dev/null; then
     rsync -av ./config/ "$HOME/.config/"
 else
     echo "rsync tidak ditemukan, fallback ke cp..."
-    cp -rf ./config/* "$HOME/.config/"
+    cp -rf ./config/. "$HOME/.config/"
 fi
 
 if [ -f "./config/nanorc" ]; then
@@ -201,7 +206,6 @@ else
         echo "OK: Package berhasil diinstall."
     fi
     fi
-fi
 fi
 
 # ============================================
