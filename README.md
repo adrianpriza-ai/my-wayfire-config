@@ -27,6 +27,7 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | swaylock | Lock screen |
 | gtklock | Lock screen (GTK) |
 | eww | Widget system |
+| xdg-desktop-portal-wlr | Portal (screen share, file picker) |
 
 > Sebagian package tersedia di Chaotic-AUR. Jalankan `setup_repos.sh` terlebih dahulu.
 
@@ -37,7 +38,7 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 ### 1. Clone repo
 
 ```bash
-git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config
+git clone https://github.com/adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config
 cd ~/my-wayfire-config
 ```
 
@@ -65,7 +66,7 @@ chmod +x install.sh
 ```
 
 Script ini akan:
-- Backup config lama di `~/.config/` dengan suffix `-clone`
+- Backup config lama di `~/.config/` dengan suffix `-clone-YYYYMMDD-HHMMSS`
 - Copy config baru ke `~/.config/`
 - Install package yang dibutuhkan (opsional)
 
@@ -103,10 +104,10 @@ Jika ingin kembali ke config sebelumnya:
 
 ```bash
 # Contoh restore kitty
-mv ~/.config/kitty-clone ~/.config/kitty
+mv ~/.config/kitty-clone-YYYYMMDD-HHMMSS ~/.config/kitty
 
 # Contoh restore waybar
-mv ~/.config/waybar-clone ~/.config/waybar
+mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 ```
 
 ---
@@ -116,4 +117,16 @@ mv ~/.config/waybar-clone ~/.config/waybar
 - Distro yang didukung: Arch Linux, dan Arch-based lainnya
 - Compositor: Wayfire (Wayland)
 - Resolusi yang digunakan: 1366x768
-- Dibuat untuk negara Indonesia
+- Dibuat dengan bahasa Indonesia
+
+## Overview
+
+- Compositor: Wayfire (Wayland)
+- Shell: Custom (waybar + eww)
+- Launcher: rofi
+- Target: Low-end hardware (1366x768)
+
+## Troubleshooting
+
+- Jika rofi tidak muncul:
+  Pastikan Wayland support aktif atau coba alternatif seperti wofi/fuzzel

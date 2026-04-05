@@ -5,12 +5,22 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Cek Arch-based
 # ============================================
 
-if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
-    echo "ERROR: Bukan Arch-based distro! Script ini hanya untuk Arch Linux."
-    exit 1
-fi
+IS_ARCH=true
 
-echo "OK: Arch-based distro terdeteksi."
+if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
+    IS_ARCH=false
+    echo "PERINGATAN: Bukan Arch-based distro!"
+    echo "            Copy config tetap bisa dilakukan."
+    echo "            Install package tidak akan tersedia."
+    echo ""
+    read -p "Lanjutkan tanpa package manager? (y/n): " arch_confirm
+    if [[ "$arch_confirm" != "y" && "$arch_confirm" != "Y" ]]; then
+        echo "Dibatalkan."
+        exit 0
+    fi
+else
+    echo "OK: Arch-based distro terdeteksi."
+fi
 
 # ============================================
 # Informasi
@@ -47,8 +57,8 @@ echo ""
 # ============================================
 
 cd "$SCRIPT_DIR" || {
-    echo "ERROR: Folder ~/my-wayfire-config/ tidak ditemukan!"
-    echo "       Clone dulu: git clone git@github.com:adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-config"
+    echo "ERROR: Tidak bisa masuk ke direktori script: $SCRIPT_DIR"
+    echo "       Clone dulu: git clone https://github.com/adrianpriza-ai/my-wayfire-config.git"
     exit 1
 }
 
@@ -77,12 +87,13 @@ CONFIG_ITEMS=(
     "wayfire"
     "wayfire.ini"
 )
-timestamp=$(date +%Y%m%d-%H%M%S)
+
+timestamp=$(date +%Y%m%d-%H%M%S-%N)
 
 for item in "${CONFIG_ITEMS[@]}"; do
     target="$HOME/.config/$item"
     if [ -e "$target" ]; then
-        mv "$target" "${target}-clone-$timestamp"
+        mv "$target" "${target}-clone-$timestamp" || echo "Gagal backup $item"
         echo "  Backup: $item -> ${item}-clone-$timestamp"
     else
         echo "  Tidak ada: $item, skip."
@@ -128,6 +139,9 @@ echo ""
 read -p "Install package yang dibutuhkan? (y/n): " install_pkg
 if [[ "$install_pkg" != "y" && "$install_pkg" != "Y" ]]; then
     echo "Skip install package."
+elif [ "$IS_ARCH" = false ]; then
+    echo "PERINGATAN: Bukan Arch-based, tidak bisa install package otomatis."
+    echo "            Install manual package yang dibutuhkan."
 else
     if ! sudo -v &> /dev/null; then
         echo "ERROR: Butuh akses sudo untuk install package. Skip."
@@ -171,6 +185,9 @@ else
             "kitty"
             "rofi"
             "mako"
+            "xdg-desktop-portal-wlr"
+            "wf-shell"
+            "swaybg"
             # tambahkan package lain di sini
         )
         # ----------------------------------------
@@ -184,6 +201,7 @@ else
         echo "OK: Package berhasil diinstall."
     fi
     fi
+fi
 fi
 
 # ============================================
