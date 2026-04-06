@@ -190,21 +190,20 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ---
 
-## Overview
+## Ringkasan
 
 - Distro: Arch Linux (dan turunannya)
 - Compositor: Wayfire (Wayland)
-- Shell: Custom (waybar + eww)
+- Shell: waybar + eww
 - Launcher: rofi
-- Target: Low-end hardware (1366x768)
+- Target: Hardware low-end (1366x768)
 - Screenshot: grim + satty
-- Volume: pactl (PipeWire / PulseAudio)
+- Audio: pactl (PipeWire / PulseAudio)
 - Brightness: brightnessctl
-- Action center: eww
 
 ## Credits
 
-- Rofi theme based on [adi1090x/rofi](https://github.com/adi1090x/rofi) (modified)
+- Konfigurasi rofi diambil dari [adi1090x/rofi](https://github.com/adi1090x/rofi) (sudah dimodifikasi)
 
 ## Troubleshooting
 
@@ -213,5 +212,5 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ## Notes
 
-- This config is still a work in progress
-- Some features may not work on all hardware
+- Konfigurasi ini masih dalam tahap pengembangan
+- Beberapa fitur mungkin tidak berjalan di semua perangkat
