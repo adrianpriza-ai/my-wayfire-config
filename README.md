@@ -89,12 +89,11 @@ Jika tidak ingin menggunakan script:
 
 ```bash
 sudo pacman -S wayfire wf-shell wf-config waybar kitty rofi mako swaylock
-
+```
 ---
 
 ## Struktur Config
 
-```
 config/
 ├── eww/          # Widget system (action center, media player, dll)
 ├── gtklock/      # GTK lock screen
