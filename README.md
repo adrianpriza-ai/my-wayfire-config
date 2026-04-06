@@ -1,15 +1,26 @@
-# my-wayfire-config (NOT TESTED YET)
+# my-wayfire-config
+> Work in progress
 
 Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch-based lainnya.
 
 ---
 
+## Features
+
+- Lightweight Wayfire setup
+- Custom action center (eww)
+- Clean keybindings
+- Low-end friendly
+
+---
+
 ## Tampilan
 
-> Screenshot
+> Action Center (eww)
 
 ![Screenshot](assets/frame-1.png)
 
+> Launcher (rofi)
 
 ![Screenshot](assets/frame-2.png)
 
@@ -24,10 +35,10 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | kitty | Terminal emulator |
 | rofi | App launcher |
 | mako | Notification daemon |
-| swaylock | Lock screen |
-| gtklock | Lock screen (GTK) |
 | eww | Widget system |
 | xdg-desktop-portal-wlr | Portal (screen share, file picker) |
+| swaylock | Lock screen |
+| gtklock | Lock screen (GTK) |
 
 > Sebagian package tersedia di Chaotic-AUR. Jalankan `setup_repos.sh` terlebih dahulu.
 
@@ -167,13 +178,6 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ---
 
-## Catatan
-
-- Distro yang didukung: Arch Linux, dan Arch-based lainnya
-- Compositor: Wayfire (Wayland)
-- Resolusi yang digunakan: 1366x768
-- Dibuat dengan bahasa Indonesia
-
 ## Overview
 
 - Compositor: Wayfire (Wayland)
@@ -184,6 +188,10 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 - Volume: pactl (PipeWire / PulseAudio)
 - Brightness: brightnessctl
 - Action center: eww
+- Distro: Arch Linux (dan turunannya)
+- Compositor: Wayfire (Wayland)
+- Shell: waybar + eww
+- Target: Low-end hardware (1366x768)
 
 ## Troubleshooting
 
