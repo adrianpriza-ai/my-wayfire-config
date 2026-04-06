@@ -1,17 +1,17 @@
 lastlogin="`last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7`"
 uptime="`uptime -p | sed -e 's/up //g'`"
 host=`hostname`
-hibernate=''
-shutdown=''
-reboot=''
-lock=''
-suspend=''
-logout='󰍃'
-yes=''
-no=''
+hibernate=''
+shutdown=''
+reboot=''
+lock=''
+suspend=''
+logout=''
+yes=''
+no=''
 rofi_cmd() {
 	rofi -dmenu \
-		-mesg " Uptime: $uptime" \
+		-mesg " Uptime: $uptime" \
 		-theme /home/momoi/.config/rofi/powermenu/style-1.rasi
 }
 confirm_cmd() {
