@@ -204,7 +204,7 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ## Credits
 
-- Rofi theme inspired by [adi1090x/rofi](https://github.com/adi1090x/rofi)
+- Rofi theme based on [adi1090x/rofi](https://github.com/adi1090x/rofi) (modified)
 
 ## Troubleshooting
 
