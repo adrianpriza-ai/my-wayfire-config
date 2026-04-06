@@ -83,6 +83,13 @@ Script ini akan:
 
 ---
 
+### Manual install (opsional)
+
+Jika tidak ingin menggunakan script:
+
+```bash
+sudo pacman -S wayfire wf-shell wf-config waybar kitty rofi mako swaylock
+
 ## Struktur Config
 
 ```
