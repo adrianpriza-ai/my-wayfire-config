@@ -98,6 +98,8 @@ sudo pacman -S wayfire wf-shell wf-config waybar kitty rofi mako swaylock
 ```
 config/
 ├── eww/          # Widget system (action center, media player, dll)
+├── fastfetch/	  # Hardware overview
+├── fish/		  # Shell
 ├── gtklock/      # GTK lock screen
 ├── kitty/        # Terminal
 ├── mako/         # Notifikasi
