@@ -37,8 +37,8 @@ Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan Arch
 | mako | Notification daemon |
 | eww | Widget system |
 | xdg-desktop-portal-wlr | Portal (screen share, file picker) |
-| swaylock | Lock screen |
-| gtklock | Lock screen (GTK) |
+| swaylock | Lock screen default |
+| gtklock | Lock screen alternatif |
 
 > Sebagian package tersedia di Chaotic-AUR. Jalankan `setup_repos.sh` terlebih dahulu.
 
@@ -106,7 +106,7 @@ config/
 ├── rofi/         # App launcher
 ├── swaylock/     # Lock screen
 ├── waybar/       # Status bar
-├── wayfire/      # Wayfire icons
+├── wayfire/      # Wayfire config / assets
 └── wayfire.ini   # Konfigurasi utama Wayfire
 ```
 
@@ -192,6 +192,7 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ## Overview
 
+- Distro: Arch Linux (dan turunannya)
 - Compositor: Wayfire (Wayland)
 - Shell: Custom (waybar + eww)
 - Launcher: rofi
@@ -200,12 +201,17 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 - Volume: pactl (PipeWire / PulseAudio)
 - Brightness: brightnessctl
 - Action center: eww
-- Distro: Arch Linux (dan turunannya)
-- Compositor: Wayfire (Wayland)
-- Shell: waybar + eww
-- Target: Low-end hardware (1366x768)
+
+## Credits
+
+- Rofi theme inspired by [adi1090x/rofi](https://github.com/adi1090x/rofi)
 
 ## Troubleshooting
 
 - Jika rofi tidak muncul:
   Pastikan Wayland support aktif atau coba alternatif seperti wofi/fuzzel
+
+## Notes
+
+- This config is still a work in progress
+- Some features may not work on all hardware
