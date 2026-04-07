@@ -27,11 +27,11 @@
     "playerctl status 2>/dev/null || echo 'Stopped'")
 (defpoll media-cover :interval "15s"
                      :run-while media-visible
-    "/home/momoi/.config/eww/script/cover.sh")
+    "$HOME/.config/eww/script/cover.sh")
 (defpoll cal-text
   :interval "40s"
   :run-while cal-visible
-  `/home/momoi/.config/eww/script/calendar.sh`)
+  `$HOME/.config/eww/script/calendar.sh`)
 (defwidget weather_item [d i t h]
   (box :orientation "vertical" :halign "center" :spacing 4 :hexpand true
     (label :halign "center" :text d :class "rover")
@@ -43,19 +43,19 @@
 (defpoll weather-update
   :interval "1h"
   :run-while wet-visible
-  `/home/momoi/.config/eww/script/weather_cache.sh`)
-(defpoll w0d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f1`)
-(defpoll w0i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f2`)
-(defpoll w0t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f3`)
-(defpoll w0h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f4`)
-(defpoll w1d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f1`)
-(defpoll w1i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f2`)
-(defpoll w1t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f3`)
-(defpoll w1h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f4`)
-(defpoll w2d :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f1`)
-(defpoll w2i :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f2`)
-(defpoll w2t :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f3`)
-(defpoll w2h :interval "10s" :run-while wet-visible `/home/momoi/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f4`)
+  `$HOME/.config/eww/script/weather_cache.sh`)
+(defpoll w0d :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f1`)
+(defpoll w0i :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f2`)
+(defpoll w0t :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f3`)
+(defpoll w0h :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '1p' | cut -d'|' -f4`)
+(defpoll w1d :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f1`)
+(defpoll w1i :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f2`)
+(defpoll w1t :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f3`)
+(defpoll w1h :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '2p' | cut -d'|' -f4`)
+(defpoll w2d :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f1`)
+(defpoll w2i :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f2`)
+(defpoll w2t :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f3`)
+(defpoll w2h :interval "10s" :run-while wet-visible `$HOME/.config/eww/script/weather_read.sh | sed -n '3p' | cut -d'|' -f4`)
 (defvar uni-visible false)
 (defvar media-visible false)
 (defvar cal-visible false)
@@ -128,7 +128,7 @@
 					:onclick "wcm &"
 					"")
 			(button :class "btn-uni" :height 30 :width 82 :hexpand false :halign "center" :vexpand false :valign "center" 
-					:onclick "/home/momoi/.config/eww/script/snap.sh &"
+					:onclick "$HOME/.config/eww/script/snap.sh &"
 					"󰹑")
 		)
 		(box :orientation "vertical" 
@@ -260,25 +260,25 @@
        ;; Mirror
        (button :class "btn-win" :onclick "~/.config/scripts/display.sh mirror"
          (box :spacing 10
-           (image :path "/home/momoi/.config/eww/icons/thumb_Duplicate_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (image :path "$HOME/.config/eww/icons/thumb_Duplicate_screen.png" :halign "start" :image-width 40 :image-height 40)
            (label :text "Duplicate")))
 
        ;; Extend
        (button :class "btn-win" :onclick "~/.config/scripts/display.sh extend"
          (box :spacing 10
-           (image :path "/home/momoi/.config/eww/icons/thumb_Extend_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (image :path "$HOME/.config/eww/icons/thumb_Extend_screen.png" :halign "start" :image-width 40 :image-height 40)
            (label :text "Extend")))
 
        ;; Internal
        (button :class "btn-win" :onclick "~/.config/scripts/display.sh internal"
          (box :spacing 10
-           (image :path "/home/momoi/.config/eww/icons/thumb_Main_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (image :path "$HOME/.config/eww/icons/thumb_Main_screen.png" :halign "start" :image-width 40 :image-height 40)
            (label :text "PC screen only")))
 
        ;; External
        (button :class "btn-win" :onclick "~/.config/scripts/display.sh external"
          (box :spacing 10
-           (image :path "/home/momoi/.config/eww/icons/thumb_Second_screen.png" :halign "start" :image-width 40 :image-height 40)
+           (image :path "$HOME/.config/eww/icons/thumb_Second_screen.png" :halign "start" :image-width 40 :image-height 40)
            (label :text "Second screen only")))
   )
 )
