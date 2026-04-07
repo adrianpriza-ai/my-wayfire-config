@@ -1,7 +1,7 @@
 {
   "logo": {
     "type": "kitty",
-    "source": "/path/to/image",
+    "source": "$HOME/.config/fastfetch/texas_arknights.png",
     "width": 24,
     "padding": {
       "top": 0,
