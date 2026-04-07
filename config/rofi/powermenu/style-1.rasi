@@ -35,7 +35,7 @@ imagebox {
     spacing:                     10px;
     padding:                     12px;
     background-color:            transparent;
-    background-image:            url("/home/momoi/.config/rofi/images/wallhaven-kwm2r6.jpg", width);
+    background-image:            url("$HOME/.config/rofi/images/wallhaven-kwm2r6.jpg", width);
     children:                    [ "dummy", "message" ];
 }
 

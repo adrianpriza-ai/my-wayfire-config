@@ -1,5 +1,5 @@
 # ~/.config/mako/config
-# Theme: Graphite Red (Texas-inspired)
+# Theme: Texas-inspired
 
 max-history=30
 
@@ -13,7 +13,7 @@ height=100
 border-size=2
 border-radius=6
 
-# === Warna Utama (Graphite Dark) ===
+# === Warna Utama ===
 background-color=#2e2e2eee
 text-color=#e8e8e8
 border-color=#c0392b
