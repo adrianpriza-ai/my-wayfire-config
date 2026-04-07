@@ -203,7 +203,7 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 
 ## Credits
 
-- Konfigurasi rofi diambil dari [adi1090x/rofi](https://github.com/adi1090x/rofi) (sudah dimodifikasi)
+- Konfigurasi rofi diadaptasi dari [adi1090x/rofi](https://github.com/adi1090x/rofi) (sudah dimodifikasi)
 
 ## Troubleshooting
 
