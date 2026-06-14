@@ -73,8 +73,8 @@ case ${chosen} in
 		run_cmd --hibernate
         ;;
     $lock)
-		if [[ -x '/usr/bin/swaylock' ]]; then
-			swaylock --clock
+		if [[ -x '/usr/bin/gtklock' ]]; then
+			gtklock
 		elif [[ -x '/usr/bin/i3lock' ]]; then
 			i3lock
 		fi
