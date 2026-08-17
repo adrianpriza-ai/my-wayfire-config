@@ -1,34 +1,34 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # ============================================
-# Cek Arch-based
+# Detect distro
 # ============================================
 
-IS_ARCH=true
-
-if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
-    IS_ARCH=false
-    echo "PERINGATAN: Bukan Arch-based distro!"
-    echo "            Copy config tetap bisa dilakukan."
-    echo "            Install package tidak akan tersedia."
+IS_ARCH=false
+if [ -f /etc/pacman.conf ] && command -v pacman &> /dev/null; then
+    IS_ARCH=true
+    echo "OK: Arch-based distro detected."
+else
+    echo "WARNING: Not an Arch-based distro."
+    echo "         Config copy will still work."
+    echo "         Package install will be skipped."
     echo ""
-    read -p "Lanjutkan tanpa package manager? (y/n): " arch_confirm
+    read -r -p "Continue without package manager? (y/n): " arch_confirm
     if [[ "$arch_confirm" != "y" && "$arch_confirm" != "Y" ]]; then
-        echo "Dibatalkan."
+        echo "Aborted."
         exit 0
     fi
-else
-    echo "OK: Arch-based distro terdeteksi."
 fi
 
 if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
-    echo "INFO: Anda tidak berada di sesi Wayland."
-    echo "      Config ini akan aktif saat login ke Wayfire (Wayland)."
+    echo "INFO: Not in a Wayland session."
+    echo "      This config will activate when you log into Wayfire (Wayland)."
 fi
 
 # ============================================
-# Informasi
+# Confirmation
 # ============================================
 
 echo ""
@@ -36,53 +36,53 @@ echo "================================================"
 echo "   Install Wayfire Config - adrianpriza-ai"
 echo "================================================"
 echo ""
-echo "Script ini akan melakukan:"
-echo "  - Menggunakan direktori repo saat ini"
-echo "  - Backup config lama (rename dengan -clone)"
-echo "  - Copy config baru ke ~/.config/"
-echo "  - Install package yang dibutuhkan"
+echo "This script will:"
+echo "  - Backup existing configs (rename with -clone suffix)"
+echo "  - Copy new configs to ~/.config/"
+echo "  - Install required packages (optional)"
 echo ""
-echo "PERHATIAN: Jalankan script ini dari dalam folder repo."
+echo "Run this script from inside the repo folder."
 echo ""
 
-# ============================================
-# Konfirmasi
-# ============================================
-
-read -p "Lanjutkan? (y/n): " confirm
+read -r -p "Continue? (y/n): " confirm
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-    echo "Dibatalkan."
+    echo "Aborted."
     exit 0
 fi
 
 echo ""
 
 # ============================================
-# Pindah ke direktori repo
+# Ensure we're in the repo
 # ============================================
 
 cd "$SCRIPT_DIR" || {
-    echo "ERROR: Tidak bisa masuk ke direktori script: $SCRIPT_DIR"
-    echo "       Clone dulu: git clone https://github.com/adrianpriza-ai/my-wayfire-config.git"
+    echo "ERROR: Can't enter repo directory: $SCRIPT_DIR"
     exit 1
 }
 
-echo "OK: Menggunakan direktori repo: $SCRIPT_DIR"
+echo "OK: Repo directory: $SCRIPT_DIR"
 
 # ============================================
-# Backup config lama
+# Validate config dir
 # ============================================
 
 if [ ! -d "./config" ]; then
-    echo "ERROR: Folder config tidak ditemukan!"
+    echo "ERROR: ./config directory not found!"
     exit 1
 fi
 
+# ============================================
+# Backup existing configs
+# ============================================
+
 echo ""
-echo ">>> Mengecek config lama di ~/.config/..."
+echo ">>> Checking existing configs in ~/.config/..."
 
 CONFIG_ITEMS=(
     "eww"
+    "fastfetch"
+    "fish"
     "gtklock"
     "kitty"
     "mako"
@@ -98,113 +98,104 @@ timestamp=$(date +%Y%m%d-%H%M%S)
 for item in "${CONFIG_ITEMS[@]}"; do
     target="$HOME/.config/$item"
     if [ -e "$target" ]; then
-        mv "$target" "${target}-clone-$timestamp" || echo "Gagal backup $item"
-        echo "  Backup: $item -> ${item}-clone-$timestamp"
+        mv "$target" "${target}-clone-${timestamp}" || echo "Failed to backup $item"
+        echo "  Backed up: $item -> ${item}-clone-${timestamp}"
     else
-        echo "  Tidak ada: $item, skip."
+        echo "  Not found: $item, skipping."
     fi
 done
 
 if [ -e "$HOME/.nanorc" ]; then
-    mv "$HOME/.nanorc" "$HOME/.nanorc-clone-$timestamp"
-    echo "  Backup: .nanorc -> .nanorc-clone-$timestamp"
+    mv "$HOME/.nanorc" "$HOME/.nanorc-clone-${timestamp}"
+    echo "  Backed up: .nanorc -> .nanorc-clone-${timestamp}"
 fi
 
-echo "OK: Backup selesai."
+echo "OK: Backup complete."
 
 # ============================================
-# Copy config baru
+# Copy new configs
 # ============================================
 
 echo ""
-echo ">>> Copy config baru ke ~/.config/..."
+echo ">>> Copying new configs to ~/.config/..."
 
 mkdir -p "$HOME/.config"
 
 if command -v rsync &> /dev/null; then
-    echo "Menggunakan rsync..."
-    rsync -av ./config/ "$HOME/.config/"
+    echo "Using rsync..."
+    rsync -a ./config/ "$HOME/.config/"
 else
-    echo "rsync tidak ditemukan, fallback ke cp..."
+    echo "rsync not found, falling back to cp..."
     cp -rf ./config/. "$HOME/.config/"
 fi
 
 if [ -f "./config/nanorc" ]; then
-    cp ./config/nanorc ~/.nanorc
-    echo "OK: .nanorc berhasil dicopy."
+    cp ./config/nanorc "$HOME/.nanorc"
+    echo "OK: .nanorc copied."
 fi
 
-echo "OK: Config berhasil dicopy."
+echo "OK: Configs copied."
 
 # ============================================
-# Install Package
+# Install packages
 # ============================================
 
 echo ""
-read -p "Install package yang dibutuhkan? (y/n): " install_pkg
+read -r -p "Install required packages? (y/n): " install_pkg
 if [[ "$install_pkg" != "y" && "$install_pkg" != "Y" ]]; then
-    echo "Skip install package."
+    echo "Skipping package install."
 elif [ "$IS_ARCH" = false ]; then
-    echo "PERINGATAN: Bukan Arch-based, tidak bisa install package otomatis."
-    echo "            Install manual package yang dibutuhkan."
+    echo "WARNING: Not Arch-based. Install packages manually."
 else
     if ! sudo -v &> /dev/null; then
-        echo "ERROR: Butuh akses sudo untuk install package. Skip."
+        echo "ERROR: sudo access required for package install. Skipping."
     else
         echo ""
-    echo ""
-    echo ">>> Mengecek package manager yang tersedia..."
+        echo ">>> Checking available package managers..."
 
-    # Cek Chaotic-AUR
-    HAS_CHAOTIC=false
-    if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-        HAS_CHAOTIC=true
-        echo "OK: Chaotic-AUR ditemukan, pakai pacman."
-    else
-        echo "INFO: Chaotic-AUR tidak ditemukan."
-    fi
-
-    # Cek yay (fallback)
-    HAS_YAY=false
-    if command -v yay &> /dev/null; then
-        HAS_YAY=true
-        echo "OK: yay ditemukan, pakai yay sebagai fallback."
-    else
-        echo "INFO: yay tidak ditemukan."
-    fi
-
-    if [ "$HAS_CHAOTIC" = false ] && [ "$HAS_YAY" = false ]; then
-        echo "PERINGATAN: Chaotic-AUR dan yay tidak tersedia."
-        echo "            Beberapa package mungkin tidak bisa diinstall."
-        echo "            Skip install package."
-    else
-        echo ""
-        echo ">>> Install package..."
-
-        # ----------------------------------------
-        # EDIT DAFTAR PACKAGE DI SINI
-        # ----------------------------------------
-        PACKAGES=(
-            "wayfire"
-            "waybar"
-            "kitty"
-            "rofi"
-            "mako"
-            "xdg-desktop-portal-wlr"
-            "wf-shell"
-            "swaybg"
-            # tambahkan package lain di sini
-        )
-        # ----------------------------------------
-
-        if [ "$HAS_CHAOTIC" = true ]; then
-            sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
-        elif [ "$HAS_YAY" = true ]; then
-            yay -S --needed --noconfirm "${PACKAGES[@]}"
+        HAS_CHAOTIC=false
+        if grep -q "^\[chaotic-aur\]" /etc/pacman.conf; then
+            HAS_CHAOTIC=true
+            echo "OK: Chaotic-AUR found, using pacman."
+        else
+            echo "INFO: Chaotic-AUR not found."
         fi
 
-        echo "OK: Package berhasil diinstall."
-    fi
+        HAS_YAY=false
+        if command -v yay &> /dev/null; then
+            HAS_YAY=true
+            echo "OK: yay found."
+        else
+            echo "INFO: yay not found."
+        fi
+
+        if [ "$HAS_CHAOTIC" = false ] && [ "$HAS_YAY" = false ]; then
+            echo "WARNING: Neither Chaotic-AUR nor yay available."
+            echo "         Some packages may not install."
+            echo "         Skipping package install."
+        else
+            echo ""
+            echo ">>> Installing packages..."
+
+            PACKAGES=(
+                "wayfire"
+                "waybar"
+                "kitty"
+                "rofi"
+                "mako"
+                "xdg-desktop-portal-wlr"
+                "wf-shell"
+                "swaybg"
+            )
+
+            if [ "$HAS_CHAOTIC" = true ]; then
+                sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
+            elif [ "$HAS_YAY" = true ]; then
+                yay -S --needed --noconfirm "${PACKAGES[@]}"
+            fi
+
+            echo "OK: Packages installed."
+        fi
     fi
 fi
 
@@ -212,6 +203,6 @@ fi
 
 echo ""
 echo "================================================"
-echo "  Selesai! Config sudah terpasang."
-echo "  Config lama disimpan dengan nama -clone"
+echo "  Done! Config installed."
+echo "  Old configs saved with -clone suffix."
 echo "================================================"

@@ -2,13 +2,13 @@
 
 # my-wayfire-config
 
-English • [Indonesia](README-ID.md)
+[English](README.md) • Indonesia
 
 </div>
 
 > Work in progress
 
-Personal Wayfire + Wayland desktop config for Arch Linux and derivatives.
+Konfigurasi desktop pribadi berbasis Wayfire + Wayland untuk Arch Linux dan turunannya.
 
 ---
 
@@ -21,7 +21,7 @@ Personal Wayfire + Wayland desktop config for Arch Linux and derivatives.
 
 ---
 
-## Screenshots
+## Tampilan
 
 > Action Center (eww)
 
@@ -33,9 +33,9 @@ Personal Wayfire + Wayland desktop config for Arch Linux and derivatives.
 
 ---
 
-## Dependencies
+## Dependensi
 
-| Package | Description |
+| Package | Keterangan |
 |---|---|
 | wayfire | Wayland compositor |
 | waybar | Status bar |
@@ -44,14 +44,14 @@ Personal Wayfire + Wayland desktop config for Arch Linux and derivatives.
 | mako | Notification daemon |
 | eww | Widget system |
 | xdg-desktop-portal-wlr | Portal (screen share, file picker) |
-| swaylock | Default lock screen |
-| gtklock | Alternative lock screen |
+| swaylock | Lock screen default |
+| gtklock | Lock screen alternatif |
 
-> Some packages are on Chaotic-AUR. Run `setup_repos.sh` first.
+> Sebagian package tersedia di Chaotic-AUR. Jalankan `setup_repos.sh` dulu.
 
 ---
 
-## Installation
+## Instalasi
 
 ### 1. Clone
 
@@ -60,20 +60,20 @@ git clone https://github.com/adrianpriza-ai/my-wayfire-config.git ~/my-wayfire-c
 cd ~/my-wayfire-config
 ```
 
-### 2. Setup repos (optional but recommended)
+### 2. Setup repo (opsional tapi direkomendasikan)
 
-Adds Chaotic-AUR, ArchLinuxCN, and/or yay:
+Menambahkan Chaotic-AUR, ArchLinuxCN, dan/atau yay:
 
 ```bash
 chmod +x setup_repos.sh
 ./setup_repos.sh
 ```
 
-Options:
+Pilihan:
 ```
 1) Chaotic-AUR + ArchLinuxCN
 2) yay
-3) Both
+3) Keduanya
 ```
 
 ### 3. Install config
@@ -83,10 +83,10 @@ chmod +x install.sh
 ./install.sh
 ```
 
-This will:
-- Backup existing configs in `~/.config/` with a `-clone-YYYYMMDD-HHMMSS` suffix
-- Copy new configs to `~/.config/`
-- Install required packages (optional)
+Script ini:
+- Backup config lama di `~/.config/` dengan suffix `-clone-YYYYMMDD-HHMMSS`
+- Copy config baru ke `~/.config/`
+- Install package (opsional)
 
 ---
 
@@ -98,41 +98,41 @@ sudo pacman -S wayfire wf-shell wf-config waybar kitty rofi mako swaylock
 
 ---
 
-## Config Structure
+## Struktur Config
 
 ```
 config/
-├── eww/          # Widget system (action center, media player, etc.)
+├── eww/          # Widget system (action center, media player, dll)
 ├── fastfetch/    # Hardware overview
 ├── fish/         # Shell
 ├── gtklock/      # GTK lock screen
 ├── kitty/        # Terminal
-├── mako/         # Notifications
+├── mako/         # Notifikasi
 ├── rofi/         # App launcher
 ├── swaylock/     # Lock screen
 ├── waybar/       # Status bar
 ├── wayfire/      # Wayfire config / assets
-└── wayfire.ini   # Main Wayfire config
+└── wayfire.ini   # Konfigurasi utama Wayfire
 ```
 
 ---
 
-## Scripts
+## Script
 
-| Script | Function |
+| Script | Fungsi |
 |---|---|
-| `setup_repos.sh` | Setup Chaotic-AUR, ArchLinuxCN, and/or yay |
-| `install.sh` | Backup old config, copy new, install packages |
+| `setup_repos.sh` | Setup Chaotic-AUR, ArchLinuxCN, dan/atau yay |
+| `install.sh` | Backup config lama, copy baru, install package |
 
 ---
 
-## Restore Old Config
+## Restore Config Lama
 
 ```bash
-# Restore kitty
+# Contoh restore kitty
 mv ~/.config/kitty-clone-YYYYMMDD-HHMMSS ~/.config/kitty
 
-# Restore waybar
+# Contoh restore waybar
 mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 ```
 
@@ -141,28 +141,28 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 ## Shortcuts
 
 ### Launch & Apps
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
-| `Ctrl + Alt + T` | Open terminal (kitty) |
+| `Ctrl + Alt + T` | Buka terminal (kitty) |
 | `Super + Space` | Launcher (rofi) |
 | `Super + E` | File manager (thunar) |
 | `Super + B` | Browser (firefox) |
 
 ### Screenshot
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
-| `Print` | Full screenshot |
-| `Super + Shift + S` | Area screenshot (grim + satty) |
+| `Print` | Screenshot full |
+| `Super + Shift + S` | Screenshot area (grim + satty) |
 
 ### Audio & Brightness
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
-| `Volume Up / Down` | Adjust volume |
+| `Volume Up / Down` | Atur volume |
 | `Mute` | Toggle mute |
-| `Brightness Up / Down` | Adjust brightness |
+| `Brightness Up / Down` | Atur kecerahan |
 
 ### Window Management
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
 | `Super + Q` | Close window |
 | `Super + F` | Fullscreen |
@@ -171,14 +171,14 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 | `Super + T` | Always on top |
 
 ### Window Tiling (Grid)
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
-| `Super + ← / →` | Snap left / right |
-| `Super + ↑ / ↓` | Snap top / bottom |
-| `Super + Shift + Arrow` | Snap to corner |
+| `Super + ← / →` | Snap kiri / kanan |
+| `Super + ↑ / ↓` | Snap atas / bawah |
+| `Super + Shift + Arrow` | Snap ke sudut |
 
 ### Workspace & Overview
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
 | `Alt + Tab` | Next window |
 | `Alt + Shift + Tab` | Previous window |
@@ -186,33 +186,33 @@ mv ~/.config/waybar-clone-YYYYMMDD-HHMMSS ~/.config/waybar
 | `Super + W` | Scale (overview) |
 
 ### System
-| Shortcut | Action |
+| Shortcut | Aksi |
 |---|---|
 | `Ctrl + Alt + Delete` | Power menu |
 | `Super + A` | Action center (eww) |
 
 ---
 
-## Summary
+## Ringkasan
 
-- Distro: Arch Linux (and derivatives)
+- Distro: Arch Linux (dan turunannya)
 - Compositor: Wayfire (Wayland)
 - Shell: waybar + eww
 - Launcher: rofi
-- Target: Low-end hardware (1366x768)
+- Target: Hardware low-end (1366x768)
 - Screenshot: grim + satty
 - Audio: pactl (PipeWire / PulseAudio)
 - Brightness: brightnessctl
 
 ## Credits
 
-- Rofi config adapted from [adi1090x/rofi](https://github.com/adi1090x/rofi) (modified)
+- Konfigurasi rofi diadaptasi dari [adi1090x/rofi](https://github.com/adi1090x/rofi) (sudah dimodifikasi)
 
 ## Troubleshooting
 
-- Rofi doesn't appear? Make sure Wayland support is enabled, or try wofi/fuzzel.
+- Rofi tidak muncul? Pastikan Wayland support aktif atau coba wofi/fuzzel.
 
 ## Notes
 
-- Still in development
-- Some features may not work on all devices
+- Masih tahap pengembangan
+- Beberapa fitur mungkin tidak jalan di semua perangkat

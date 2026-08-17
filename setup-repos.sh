@@ -1,31 +1,29 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
 # ============================================
-# Cek Arch-based
+# Prerequisites check
 # ============================================
 
-# Cek sudo
 if ! sudo -v &> /dev/null; then
-    echo "ERROR: Butuh akses sudo untuk menjalankan script ini."
+    echo "ERROR: sudo access required."
     exit 1
 fi
-
-echo "OK: Akses sudo tersedia."
+echo "OK: sudo access granted."
 
 if [ ! -f /etc/pacman.conf ] || ! command -v pacman &> /dev/null; then
-    echo "ERROR: Bukan Arch-based distro! Script ini hanya untuk Arch Linux."
+    echo "ERROR: Not Arch-based. This script is for Arch Linux only."
     exit 1
 fi
-
-echo "OK: Arch-based distro terdeteksi."
+echo "OK: Arch-based distro detected."
 
 if ! ping -c 1 archlinux.org &> /dev/null; then
-    echo "ERROR: Tidak ada koneksi internet."
+    echo "ERROR: No internet connection."
     exit 1
 fi
 
 # ============================================
-# Informasi
+# Info and selection
 # ============================================
 
 echo ""
@@ -33,142 +31,126 @@ echo "================================================"
 echo "   Setup Repo - Chaotic-AUR / ArchLinuxCN / yay"
 echo "================================================"
 echo ""
-echo "Script ini dapat melakukan:"
-echo "  1. Setup Chaotic-AUR + ArchLinuxCN"
-echo "  2. Install yay (AUR helper)"
-echo "  3. Keduanya"
-echo ""
-
-# ============================================
-# Pilihan
-# ============================================
-
-echo "Pilih opsi:"
+echo "Options:"
 echo "  1) Chaotic-AUR + ArchLinuxCN"
-echo "  2) yay"
-echo "  3) Keduanya"
+echo "  2) yay (AUR helper)"
+echo "  3) Both"
 echo ""
-read -p "Pilihan (1/2/3): " choice
+read -r -p "Choice (1/2/3): " choice
 
 case "$choice" in
     1|2|3) ;;
     *)
-        echo "ERROR: Pilihan tidak valid."
+        echo "Invalid choice."
         exit 1
         ;;
 esac
 
 echo ""
-echo "Yang akan dilakukan:"
+echo "Will do:"
 case "$choice" in
-    1)
-        echo "  - Setup Chaotic-AUR"
-        echo "  - Setup ArchLinuxCN"
-        ;;
-    2)
-        echo "  - Install yay dari AUR"
-        ;;
-    3)
-        echo "  - Setup Chaotic-AUR"
-        echo "  - Setup ArchLinuxCN"
-        echo "  - Install yay dari AUR"
-        ;;
+    1) echo "  - Setup Chaotic-AUR"; echo "  - Setup ArchLinuxCN" ;;
+    2) echo "  - Install yay from AUR" ;;
+    3) echo "  - Setup Chaotic-AUR"; echo "  - Setup ArchLinuxCN"; echo "  - Install yay from AUR" ;;
 esac
 
 echo ""
-read -p "Lanjutkan? (y/n): " confirm
+read -r -p "Continue? (y/n): " confirm
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-    echo "Dibatalkan."
+    echo "Aborted."
     exit 0
 fi
 
 echo ""
 
+# ============================================
+# Backup pacman.conf
+# ============================================
+
 timestamp=$(date +%Y%m%d-%H%M%S)
-sudo cp /etc/pacman.conf /etc/pacman.conf.backup-$timestamp
+sudo cp /etc/pacman.conf "/etc/pacman.conf.backup-${timestamp}"
+echo "OK: pacman.conf backed up as pacman.conf.backup-${timestamp}"
 
 # ============================================
-# Fungsi: Setup Chaotic-AUR
+# Setup Chaotic-AUR
 # ============================================
 
 setup_chaotic() {
-    echo ">>> Setup Chaotic-AUR..."
+    echo ">>> Setting up Chaotic-AUR..."
 
-    if grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-        echo "INFO: Chaotic-AUR sudah ada, skip."
-    else
-        sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-        sudo pacman-key --lsign-key 3056513887B78AEB
-        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-        sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-
-        echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf > /dev/null || {
-		echo "ERROR: Gagal menulis ke pacman.conf"
-		exit 1
-	}
-        echo "OK: Chaotic-AUR ditambahkan."
-    fi
-}
-
-# ============================================
-# Fungsi: Setup ArchLinuxCN
-# ============================================
-
-setup_archlinuxcn() {
-    echo ">>> Setup ArchLinuxCN..."
-
-    if grep -q "\[archlinuxcn\]" /etc/pacman.conf; then
-        echo "INFO: ArchLinuxCN sudah ada, skip."
-    else
-        echo -e "\n[archlinuxcn]\nServer = https://repo.archlinuxcn.org/\$arch" | sudo tee -a /etc/pacman.conf > /dev/null || {
-		echo "ERROR: Gagal menulis ke pacman.conf"
-		exit 1
-	}
-        sudo pacman -Sy --noconfirm archlinuxcn-keyring
-        echo "OK: ArchLinuxCN ditambahkan."
-    fi
-}
-
-# ============================================
-# Fungsi: Install yay
-# ============================================
-
-setup_yay() {
-    echo ">>> Setup yay..."
-
-    if command -v yay &> /dev/null; then
-        echo "INFO: yay sudah terinstall, skip."
+    if grep -q "^\[chaotic-aur\]" /etc/pacman.conf; then
+        echo "INFO: Chaotic-AUR already configured, skipping."
         return
     fi
 
-    # Cek dependensi
+    sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+    sudo pacman-key --lsign-key 3056513887B78AEB
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+    echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf > /dev/null || {
+        echo "ERROR: Failed to write to pacman.conf"
+        exit 1
+    }
+    echo "OK: Chaotic-AUR added."
+}
+
+# ============================================
+# Setup ArchLinuxCN
+# ============================================
+
+setup_archlinuxcn() {
+    echo ">>> Setting up ArchLinuxCN..."
+
+    if grep -q "^\[archlinuxcn\]" /etc/pacman.conf; then
+        echo "INFO: ArchLinuxCN already configured, skipping."
+        return
+    fi
+
+    echo -e "\n[archlinuxcn]\nServer = https://repo.archlinuxcn.org/\$arch" | sudo tee -a /etc/pacman.conf > /dev/null || {
+        echo "ERROR: Failed to write to pacman.conf"
+        exit 1
+    }
+    sudo pacman -Sy --noconfirm archlinuxcn-keyring
+    echo "OK: ArchLinuxCN added."
+}
+
+# ============================================
+# Install yay
+# ============================================
+
+setup_yay() {
+    echo ">>> Setting up yay..."
+
+    if command -v yay &> /dev/null; then
+        echo "INFO: yay already installed, skipping."
+        return
+    fi
+
     if ! command -v git &> /dev/null; then
-        echo ">>> Install git..."
+        echo ">>> Installing git..."
         sudo pacman -S --needed --noconfirm git
     fi
 
     if ! pacman -Qi base-devel &> /dev/null; then
-        echo ">>> Install base-devel..."
+        echo ">>> Installing base-devel..."
         sudo pacman -S --needed --noconfirm base-devel
     fi
 
-    # Clone & build yay
     tmpdir=$(mktemp -d)
     git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
-    cd "$tmpdir/yay" || exit 1
-    makepkg -si --noconfirm
-    cd "$HOME" || exit 1
+    (cd "$tmpdir/yay" && makepkg -si --noconfirm)
     rm -rf "$tmpdir"
 
     if command -v yay &> /dev/null; then
-        echo "OK: yay berhasil diinstall."
+        echo "OK: yay installed."
     else
-        echo "ERROR: yay gagal diinstall."
+        echo "ERROR: yay installation failed."
     fi
 }
 
 # ============================================
-# Jalankan sesuai pilihan
+# Run
 # ============================================
 
 case "$choice" in
@@ -190,14 +172,14 @@ case "$choice" in
 esac
 
 # ============================================
-# Update database
+# Update pacman databases
 # ============================================
 
 echo ""
-echo ">>> Update database pacman..."
+echo ">>> Updating pacman databases..."
 sudo pacman -Sy --noconfirm
 
 echo ""
 echo "================================================"
-echo "  Selesai! Repo siap dipakai."
+echo "  Done! Repos ready."
 echo "================================================"
